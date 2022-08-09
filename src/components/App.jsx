@@ -42,20 +42,8 @@ class App extends Component {
   }
 
   componentDidUpdate(prevProps, prevState, snapshot) {
-    const { query, page } = this.state;
-
     if (prevState.query !== this.state.query) {
-      this.setState({ isLoading: true });
-      getArticles(query, page)
-        .then(data =>
-          this.setState(prev => ({
-            searchData: [...prev.searchData, ...data.hits],
-            page: prev.page + 1,
-            totalHits: data.totalHits,
-          })),
-        )
-        .catch(err => this.setState({ isError: true }))
-        .finally(() => this.setState({ isLoading: false }));
+      this.getData();
     }
 
     if (prevState.searchData !== this.state.searchData && this.state.page > 1) {
@@ -73,6 +61,12 @@ class App extends Component {
   };
 
   onLoadMore = () => {
+    // const { page } = this.state;
+    // this.setState({ page: page + 1 });
+    this.getData();
+  };
+
+  getData = () => {
     const { query, page } = this.state;
     this.setState({ isLoading: true });
     getArticles(query, page)
@@ -80,6 +74,7 @@ class App extends Component {
         this.setState(prev => ({
           searchData: [...prev.searchData, ...data.hits],
           page: prev.page + 1,
+          totalHits: data.totalHits,
         })),
       )
       .catch(err => this.setState({ isError: true }))

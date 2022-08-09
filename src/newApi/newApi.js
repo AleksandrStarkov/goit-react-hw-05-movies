@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-export const getArticles = async (query, page) => {
+export const getArticles = async (query, page = 1) => {
   const URL = 'https://pixabay.com/api/';
   const options = new URLSearchParams({
     key: '28584763-421dc035e00a550bd9f3576d4',
@@ -8,7 +8,7 @@ export const getArticles = async (query, page) => {
     image_type: 'photo',
     orientation: 'horizontal',
     // safesearch: 'true',
-    page,
+    page: page,
     per_page: '12',
   });
 

@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 export default function Button({ onLoadMore }) {
   return (
     <>
-      <button className={s.Button} type="button" onClick={() => onLoadMore()}>
+      <button className={s.Button} type="button" onClick={onLoadMore}>
         Load more
       </button>
     </>
