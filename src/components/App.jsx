@@ -22,27 +22,30 @@ class App extends Component {
 
   getSnapshotBeforeUpdate(prevProps, prevState) {
     if (prevState.searchData !== this.state.searchData) {
-      // console.log(document.body.clientHeight);
       return document.body.clientHeight;
     }
     return null;
   }
 
-  componentDidMount() {
-    const { page } = this.state;
-    this.setState({ isLoading: true });
-    getArticles(page)
-      .then(({ hits, totalHits }) =>
-        this.setState({ searchData: hits, totalHits }),
-      )
-      .catch(err => {
-        console.log(err);
-      })
-      .finally(() => this.setState({ isLoading: false }));
-  }
+  // componentDidMount() {
+  //   // console.log(this.state.page);
+  //   const { page } = this.state;
+  //   this.setState({ isLoading: true });
+  //   getArticles(page)
+  //     .then(({ hits, totalHits }) =>
+  //       this.setState({ searchData: hits, totalHits }),
+  //     )
+  //     .catch(err => {
+  //       console.log(err);
+  //     })
+  //     .finally(
+  //       () => this.setState({ isLoading: false }),
+  //       console.log(this.state.query),
+  //     );
+  // }
 
   componentDidUpdate(prevProps, prevState, snapshot) {
-    if (prevState.query !== this.state.query) {
+    if (prevState.query !== this.state.query && this.state.query) {
       this.getData();
     }
 
@@ -68,12 +71,14 @@ class App extends Component {
 
   getData = () => {
     const { query, page } = this.state;
+
     this.setState({ isLoading: true });
     getArticles(query, page)
       .then(data =>
         this.setState(prev => ({
           searchData: [...prev.searchData, ...data.hits],
           page: prev.page + 1,
+          // query: data.query,
           totalHits: data.totalHits,
         })),
       )
@@ -119,7 +124,7 @@ class App extends Component {
         {searchData.length > 0 && searchData.length < totalHits && (
           <Button onLoadMore={this.onLoadMore} />
         )}
-        {isLoading && <Loader />}
+        {/* {isLoading && <Loader />} */}
         {isError && notFound()}
         {isModalOpen && (
           <Modal
