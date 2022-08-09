@@ -29,9 +29,9 @@ class App extends Component {
 
   // componentDidMount() {
   //   // console.log(this.state.page);
-  //   const { page } = this.state;
+  //   const { page, query } = this.state;
   //   this.setState({ isLoading: true });
-  //   getArticles(page)
+  //   getArticles(page, query)
   //     .then(({ hits, totalHits }) =>
   //       this.setState({ searchData: hits, totalHits }),
   //     )
@@ -63,17 +63,11 @@ class App extends Component {
     });
   };
 
-  onLoadMore = () => {
-    // const { page } = this.state;
-    // this.setState({ page: page + 1 });
-    this.getData();
-  };
-
   getData = () => {
-    const { query, page } = this.state;
+    const { page, query } = this.state;
 
     this.setState({ isLoading: true });
-    getArticles(query, page)
+    getArticles(page, query)
       .then(data =>
         this.setState(prev => ({
           searchData: [...prev.searchData, ...data.hits],
@@ -84,6 +78,12 @@ class App extends Component {
       )
       .catch(err => this.setState({ isError: true }))
       .finally(() => this.setState({ isLoading: false }));
+  };
+
+  onLoadMore = () => {
+    // const { page } = this.state;
+    // this.setState({ page: page + 1 });
+    this.getData();
   };
 
   onHandleClickImage = data => {

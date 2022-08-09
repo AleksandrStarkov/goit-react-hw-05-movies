@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-export const getArticles = async (query, page = 1) => {
+export const getArticles = async (page = 1, query) => {
   const URL = 'https://pixabay.com/api/';
   const options = new URLSearchParams({
     key: '28584763-421dc035e00a550bd9f3576d4',
