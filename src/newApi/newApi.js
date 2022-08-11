@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-export const getArticles = async (page = 1, query) => {
+export const getArticles = async (page = 1, query = 'all') => {
   const URL = 'https://pixabay.com/api/';
   const options = new URLSearchParams({
     key: '28584763-421dc035e00a550bd9f3576d4',
@@ -14,7 +14,7 @@ export const getArticles = async (page = 1, query) => {
 
   try {
     const response = await axios.get(`${URL}?${options}`);
-    // console.log(response);
+
     if (response.data.hits.length === 0) {
       throw new Error('error');
     }
