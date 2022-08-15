@@ -1,25 +1,58 @@
 import axios from 'axios';
 
-export const getArticles = async (page = 1, query = 'all') => {
-  const URL = 'https://pixabay.com/api/';
-  const options = new URLSearchParams({
-    key: '28584763-421dc035e00a550bd9f3576d4',
-    q: query,
-    image_type: 'photo',
-    orientation: 'horizontal',
-    // safesearch: 'true',
-    page: page,
-    per_page: '12',
-  });
+const URL = 'https://api.themoviedb.org/3/';
+const KEY = '8480501c25fe2e75305c7a4c8973aec6';
 
+export const getTrending = async () => {
   try {
-    const response = await axios.get(`${URL}?${options}`);
+    const response = await axios.get(
+      `${URL}/trending/movie/week?api_key=${KEY}`,
+    );
 
-    if (response.data.hits.length === 0) {
-      throw new Error('error');
-    }
     return response.data;
   } catch (error) {
-    throw error;
+    console.log(error);
   }
+};
+
+export const getMovieDetails = async id => {
+  try {
+    const response = await axios.get(`${URL}movie/${id}?api_key=${KEY}`);
+
+    return response.data;
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+export const getMovieCredits = async id => {
+  try {
+    const response = await axios.get(
+      `${URL}movie/${id}/credits?api_key=${KEY}`,
+    );
+
+    return response;
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+export const getMovieReviews = async id => {
+  try {
+    const response = await axios.get(
+      `${URL}movie/${id}/reviews?api_key=${KEY}`,
+    );
+    return response.data.results;
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+export const getSearchMovies = async query => {
+  return await axios(`${URL}search/movie`, {
+    params: {
+      api_key: KEY,
+      query: query,
+    },
+  }).then(response => response.data);
 };

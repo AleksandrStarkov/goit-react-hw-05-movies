@@ -1,42 +1,45 @@
 import { useState } from 'react';
 import s from './Searchbar.module.css';
-import PropTypes from 'prop-types';
+import { useLocation, useNavigate } from 'react-router-dom';
 
-const Searchbar = ({ onSubmit }) => {
+const Searchbar = () => {
   const [query, setQuery] = useState('');
+  const navigate = useNavigate();
+  const location = useLocation();
 
   const onHadleChange = e => {
     const query = e.target.value.trim();
     setQuery(query);
   };
+  // setSearchParams({ q: query });
 
   const onHandleSubmit = e => {
     e.preventDefault();
-    onSubmit(query);
-    setQuery('');
+    navigate(`?q=${query}`, {
+      state: location.state,
+    });
   };
-  return (
-    <header className={s.Searchbar}>
-      <form className={s.SearchForm} onSubmit={onHandleSubmit}>
-        <input
-          className={s.SearchFormInput}
-          type="text"
-          autoComplete="off"
-          autoFocus
-          placeholder="Search images and photos"
-          value={query}
-          onChange={onHadleChange}
-        />
-        <button type="submit" className={s.SearchFormButton}>
-          <span className={s.SearchFormButtonLabel}>Search</span>
-        </button>
-      </form>
-    </header>
-  );
-};
 
-Searchbar.propTypes = {
-  onSubmit: PropTypes.func.isRequired,
+  return (
+    <div className={s.Searchbar}>
+      <form className={s.SearchForm} onSubmit={onHandleSubmit}>
+        <label>
+          <input
+            className={s.SearchFormInput}
+            type="text"
+            autoComplete="off"
+            autoFocus
+            placeholder="Search images and photos"
+            value={query}
+            onChange={onHadleChange}
+          />
+        </label>
+      </form>
+      <button type="submit" className={s.SearchFormButton}>
+        <span className={s.SearchFormButtonLabel}>Search</span>
+      </button>
+    </div>
+  );
 };
 
 export default Searchbar;
