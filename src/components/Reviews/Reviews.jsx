@@ -5,7 +5,6 @@ import s from './Reviews.module.css';
 
 const Reviews = () => {
   const [reviews, setReviews] = useState([]);
-
   const { movieId } = useParams();
 
   useEffect(() => {
