@@ -4,7 +4,7 @@ import s from './MovieDetails.module.css';
 
 const MovieDetails = ({ movie }) => {
   const location = useLocation();
-  const backLinkHref = location.state?.from ?? '/movies';
+  const backLinkHref = location.state ?? '/movies';
   return (
     <>
       {movie.length !== 0 && (

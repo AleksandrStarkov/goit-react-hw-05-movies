@@ -1,11 +1,11 @@
 import { useState } from 'react';
 import s from './Searchbar.module.css';
-import { useLocation, useNavigate } from 'react-router-dom';
+// import { useLocation, useNavigate } from 'react-router-dom';
 
-const Searchbar = () => {
+const Searchbar = ({ setSearchParams }) => {
   const [query, setQuery] = useState('');
-  const navigate = useNavigate();
-  const location = useLocation();
+  // const navigate = useNavigate();
+  // const location = useLocation();
 
   const onHadleChange = e => {
     const query = e.target.value.trim();
@@ -15,9 +15,11 @@ const Searchbar = () => {
 
   const onHandleSubmit = e => {
     e.preventDefault();
-    navigate(`?q=${query}`, {
-      state: location.state,
-    });
+    if (query.trim() === '') {
+      alert('what are you want?');
+      return;
+    }
+    setSearchParams({ q: query });
   };
 
   return (
